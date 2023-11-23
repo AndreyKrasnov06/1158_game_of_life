@@ -2,8 +2,11 @@ import sys
 import copy
 from time import sleep
 import os
+import asyncio
 
-TPS = 20
+from pynput import keyboard
+
+TPS = 5
 
 
 def clear_terminal():
@@ -84,3 +87,18 @@ def run(field):
         clear_terminal()
         field = next_field
     input()
+
+
+def on_press(key):
+    global TPS
+    if key == keyboard.KeyCode(char="+"):
+        TPS += 1
+    elif key == keyboard.KeyCode(char="-"):
+        if TPS > 1:
+            TPS -= 1
+
+
+# ...or, in a non-blocking fashion:
+listener = keyboard.Listener(
+    on_press=on_press)
+listener.start()
