@@ -3,7 +3,7 @@ import copy
 from time import sleep
 import os
 
-TPS = 50
+TPS = 20
 
 
 def clear_terminal():
@@ -27,18 +27,15 @@ def print_field(field):
         print(" ".join((i)))
 
 
-def fill_cell(field, i, j):
-    if field[i][j] == "■":
-        field[i][j] = "□"
-    else:
-        field[i][j] = "■"
-    return field
-
-
 def fill_field(field):
+    clear_terminal()
+    print_field(field)
     while (coords := input()) != "0":
-        x, y = map(lambda x: int(x) - 1, coords.split(" "))
-        field = fill_cell(field, y, x)
+        j, i = map(lambda x: int(x) - 1, coords.split(" "))
+        if field[i][j] == "■":
+            field[i][j] = "□"
+        else:
+            field[i][j] = "■"
         clear_terminal()
         print_field(field)
     return field
@@ -77,6 +74,7 @@ def tick(field):
 
 
 def run(field):
+    clear_terminal()
     while True:
         print_field(field)
         sleep(1 / TPS)
